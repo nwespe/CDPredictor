@@ -1,0 +1,36 @@
+{% extends "index.html" %}
+{% block content %}
+
+
+  <div class="container">
+    <div class="starter-template">
+      <h3>Prediction Results</h3>
+      <p class="lead">Patient risk is {{ risk }}. Recommendation is to {{ method }}.
+      </p>
+    </div>
+  </div>
+
+<br><br>
+
+  <div class="container">
+    <div class="starter-template">
+      <h3>Patient Characteristics</h3>
+      <p class="lead">Patient risk was evaluated for the following inputs:
+        <br>
+      <table>
+        <tr>
+              {% for table in tables %}
+              <td>{{ table|safe }}</td>
+              {% endfor %}
+        </tr>
+      </table>
+      </p>
+    </div>
+
+      <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+      <script src="../static/js/bootstrap.min.js"></script>
+
+     </div><!-- /.container -->
+
+{% endblock %}
+

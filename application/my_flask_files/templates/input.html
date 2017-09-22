@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="container">
+
+    <div class="starter-template">
+        <h2>Input Patient Information</h2>
+        <p>{fill in later}</p>
+    </div>
+
+    <div class = "container">
+      <div align="center">
+        <form name="patientinfo" action="/output" method="POST">
+          <select name="albumin">
+            <option value="None">Albumin:</option>
+            <option value="Low">Low</option>
+            <option value="Mid">Mid</option>
+            <option value="High">High</option>
+          </select>
+
+          <select name="weight">
+            <option value="None">Weight:</option>
+            <option value="Low">Low</option>
+            <option value="Mid">Mid</option>
+            <option value="High">High</option>
+          </select>
+          <br><br>
+          <button type="submit" name="info" class="btn btn-default btn-lg">
+            Evaluate patient</button>
+        </form>
+      </div>
+    </div>
+
+
+
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+
+  </div> <!-- /.container-->
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+
+  <div class="container">
+
+    <div class="starter-template">
+        <h2>Choose model input</h2>
+        <p>{add description later}</p>
+    </div>
+
+    <div class = "container">
+      <div align="center">
+        <form name="patientinfo" action="/input" method="POST">
+          <button type="submit" name="input" class="btn btn-default btn-lg">
+            Enter patient characteristics</button>
+        </form>
+          <br><br>
+        <form name="patientprofile" action="/profile_output" method="POST">
+          <button type="submit" name="profile" class="btn btn-default btn-lg">
+            Evaluate random patient profile</button>
+        </form>
+      </div>
+    </div>
+
+
+
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+
+  </div> <!-- /.container-->
+{% endblock %}
