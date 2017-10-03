@@ -1,24 +1,20 @@
 {% extends "index.html" %}
 {% block content %}
 
- <div class="container">
-    <div class="starter-template">
-        <h3>Patient Characteristics</h3>
-        <p class="lead">Patient risk was evaluated for the following inputs:
-        <br> {{ dataframe|safe }}</p>
-    </div></div>
-
-    <div class="container">
-      <div class="starter-template">
-        <h3>Prediction Results</h3>
-        <p class="lead">Patient risk is {{ risk }}. Recommendation is to {{ method }}.
-        </p>
-      </div>
-
+      <section id="one" class="wrapper">
+            <div class="inner" align="center">
+                <section>
+                    <h2>Prediction Results: Patient risk is {{ risk }}.</h2>
+                </section><section>
+                    <h2><u>Risk by Antibiotic</u></h2>
+                    {{ table|safe }}
+                </section>
+            </div>
+      </section>
 
       <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
       <script src="../static/js/bootstrap.min.js"></script>
 
-     </div><!-- /.container -->
 
 {% endblock %}
+

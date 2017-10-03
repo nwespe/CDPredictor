@@ -1,17 +1,18 @@
+import pandas as pd
 from flask import render_template
-from flask import request
+from flask import request, redirect
+from run_model import eval_risk
 
-from application.my_flask_files import app  # in __init__.py file
-from application.run_model import eval_risk
+from my_flask_files import app  # in __init__.py file
 
 
 @app.route('/')
-@app.route('/index')
+@app.route('/index', methods=['GET', 'POST'])
 def index():
     return render_template('index.html')
 
 
-@app.route('/input', methods=['POST'])
+@app.route('/input', methods=['GET', 'POST'])
 def patient_input():
     return render_template('input.html')
 
@@ -37,19 +38,21 @@ def patient_output():
                            risk=risk, method=method)
 
 
+@app.route('/profile_input', methods=['GET', 'POST'])
+def profile_input():
+    return render_template('profile_input.html')
+
+
 @app.route('/profile_output', methods=['POST'])
-def patient_select():
-    chars, result = eval_risk(method='profile')
-    chars = chars.transpose()
-    if result == 0:
-        risk = 'low'
-        method = 'use current standard of care'
-    if result == 1:
-        risk = 'high'
-        method = 'use advanced diagnostic method'
-    return render_template('output.html', #dataframe=chars.to_html(classes='table'),
-                           tables=[chars[:16].to_html(classes='table'),
-                                   chars[16:32].to_html(classes='table'),
-                                   chars[32:48].to_html(classes='table'),
-                                   chars[48:].to_html(classes='table')],
-                           risk=risk, method=method)
+def profile_select():
+    hadm_id = request.args.get('hadm_id')
+    print hadm_id
+    risk, results = eval_risk(name=hadm_id)
+    return render_template('profile_output.html',
+                           table=results.to_html(header=False, classes='table'),
+                           risk=risk)
+
+
+@app.route('/slides')
+def slides():
+    return render_template('slides.html')

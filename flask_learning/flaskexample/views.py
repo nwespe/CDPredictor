@@ -4,7 +4,7 @@ from flask import render_template
 from flask import request
 from sqlalchemy import create_engine
 
-from flask_learning.flaskexample import app
+from all_other_flask.flask_learning.flaskexample import app
 
 user = 'nwespe'  # psql username
 

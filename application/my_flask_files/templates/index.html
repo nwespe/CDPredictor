@@ -1,31 +1,58 @@
 {% extends "base.html" %}
 {% block content %}
+		<!-- Banner -->
+			<section id="banner" class="wrapper">
+				<div class="inner split">
+					<section>
+						<h2>CD Predictor</h2>
+						<p>Evaluate patient risk for <i>C. difficile</i> infection</p>
+					</section>
 
-  <div class="container">
+					<section>
 
-    <div class="starter-template">
-        <h2>Choose model input</h2>
-        <p>{add description later}</p>
-    </div>
+						<br>
+						<form name="patientprofile" action="/profile_output" method="POST">
+							<table><tr>
+							<select class="button" name="hadm_id">
+								<option value="None">SELECT PATIENT:</option>
+								<option value="None">Choose random patient</option>
+								<option value="130600">Patient 1</option>
+								<option value="111103">Patient 2</option>
+								<option value="117047">Patient 3</option>
+							</select></tr>
+							<br> <br>
+								<tr>
+							<button type="submit" class="button special big">
+								Evaluate patient profile</button></tr></table>
+						</form>
+					</section>
+				</div>
+			</section>
 
-    <div class = "container">
-      <div align="center">
-        <form name="patientinfo" action="/input" method="POST">
-          <button type="submit" name="input" class="btn btn-default btn-lg">
-            Enter patient characteristics</button>
-        </form>
-          <br><br>
-        <form name="patientprofile" action="/profile_output" method="POST">
-          <button type="submit" name="profile" class="btn btn-default btn-lg">
-            Evaluate random patient profile</button>
-        </form>
-      </div>
-    </div>
+
+			<!--<section id="one" class="wrapper">-->
+				<!--<div class="inner">-->
+					<!--<section>-->
+						<!--<h2>What is <i>Clostridium difficile?</i></h2>-->
+						<!--<p><i>Clostridium difficile</i>, a.k.a. <i>C. diff.</i>, is an intestinal infection that-->
+					<!--</section>-->
+				<!--</div>-->
+			<!--</section>-->
 
 
+		<!-- Footer -->
+			<footer id="footer">
+				<div class="copyright">
+					&copy; CD Predictor Pro. All rights reserved
+					Design: <a href="http://templated.co">TEMPLATED</a>.
+				</div>
+			</footer>
 
-    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="../static/js/bootstrap.min.js"></script>
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
 
-  </div> <!-- /.container-->
 {% endblock %}

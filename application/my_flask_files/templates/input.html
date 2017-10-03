@@ -1,39 +1,71 @@
 {% extends "base.html" %}
 {% block content %}
-  <div class="container">
 
-    <div class="starter-template">
-        <h2>Input Patient Information</h2>
-        <p>{fill in later}</p>
-    </div>
+        <section id="one" class="wrapper">
+                <div class="inner" align="center">
+                    <h2>Enter patient information</h2>
+                </div>
 
-    <div class = "container">
-      <div align="center">
-        <form name="patientinfo" action="/output" method="POST">
-          <select name="albumin">
-            <option value="None">Albumin:</option>
-            <option value="Low">Low</option>
-            <option value="Mid">Mid</option>
-            <option value="High">High</option>
-          </select>
+                    <form name="patientinfo" action="/output" method="POST">
+                        <div class="columns">
+						  <select class="button alt" name="albumin">
+							<option value="None">Albumin:</option>
+							<option value="Low">Low</option>
+							<option value="Mid">Mid</option>
+							<option value="High">High</option>
+						  </select>
+                            <br>
+                            <select class="button alt" name="bicarbonate">
+							<option value="None">Bicarbonate:</option>
+							<option value="Low">Low</option>
+							<option value="Mid">Mid</option>
+							<option value="High">High</option>
+						  </select>
+                            <br>
+                            <select class="button alt" name="hemoglobin">
+							<option value="None">Hemoglobin:</option>
+							<option value="Low">Low</option>
+							<option value="Mid">Mid</option>
+							<option value="High">High</option>
+						  </select>
+                            <br>
+                            <select class="button alt" name="bp">
+							<option value="None">Blood pressure:</option>
+							<option value="Low">Low</option>
+							<option value="Mid">Mid</option>
+							<option value="High">High</option>
+						  </select>
+                            <br>
+						  <select class="button alt" name="weight">
+							<option value="None">Weight:</option>
+							<option value="Low">Low</option>
+							<option value="Mid">Mid</option>
+							<option value="High">High</option>
+						  </select>
+                            <br>
+						  <select class="button alt" name="other">
+							<option value="None">Other:</option>
+							<option value="Low">Low</option>
+							<option value="Mid">Mid</option>
+							<option value="High">High</option>
+						  </select>
+                            </div>
+						  <br>
+                            <div align="center">
+						  <button type="submit" class="button special big">
+							Determine patient risk</button>
+                            </div>
+						</form>
 
-          <select name="weight">
-            <option value="None">Weight:</option>
-            <option value="Low">Low</option>
-            <option value="Mid">Mid</option>
-            <option value="High">High</option>
-          </select>
-          <br><br>
-          <button type="submit" name="info" class="btn btn-default btn-lg">
-            Evaluate patient</button>
-        </form>
-      </div>
-    </div>
+					  <!--</div>-->
+                    <!--</section>-->
+            </section>
 
+<!-- Scripts -->
+			<script src="../assets/js/jquery.min.js"></script>
+			<script src="../assets/js/skel.min.js"></script>
+			<script src="../assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="../assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="../assets/js/main.js"></script>
 
-
-    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="../static/js/bootstrap.min.js"></script>
-
-  </div> <!-- /.container-->
 {% endblock %}

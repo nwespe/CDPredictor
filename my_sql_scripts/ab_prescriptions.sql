@@ -97,6 +97,6 @@ WITH ab_scripts AS
     )
 
   SELECT ad.*, ab.startdate, ab.drug_type, ab.drug
-  FROM admit_info ad
+  FROM all_admit_info ad
   JOIN ab_scripts ab
     ON ad.subject_id = ab.subject_id AND ad.hadm_id = ab.hadm_id;

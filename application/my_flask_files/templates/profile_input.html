@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+
+		<section id="one" class="wrapper">
+                <div class="inner" align="center">
+                    <h2>Select patient profile</h2>
+                </div>
+			<form name="patientprofile" action="/profile_output" method="POST">
+				<div class="inner" align="center">
+					<select class="button alt" name="hadm_id">
+						<option value="None">Admission ID:</option>
+						<option value="None">Choose random patient</option>
+						<!--<option value="ID1">ID1</option>-->
+						<!--<option value="ID2">ID2</option>-->
+						<!--<option value="ID3">ID3</option>-->
+						<!--<option value="ID4">ID4</option>-->
+						<!--<option value="ID5">ID5</option>-->
+					</select>
+				</div>
+				<br>
+				<div align="center">
+					<button type="submit" class="button special big">
+						Determine patient risk</button>
+				</div>
+			</form>
+		</section>
+
+
+<!-- Scripts -->
+			<script src="../assets/js/jquery.min.js"></script>
+			<script src="../assets/js/skel.min.js"></script>
+			<script src="../assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="../assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="../assets/js/main.js"></script>
+
+{% endblock %}
