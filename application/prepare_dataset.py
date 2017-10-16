@@ -170,7 +170,7 @@ def balance_dataset(dataset, label, undersample=True):
     data_split = [dataset[dataset[label] == l].copy() for l in list(set(dataset[label].values))]
     sizes = [f.shape[0] for f in data_split]  # list of dataset lengths
     dataset = pd.concat([f.sample(n=(min(sizes) if undersample else max(sizes)),
-                               replace=(not undersample)).copy() for f in data_split], axis=0).sample(frac=1)
+                               replace=(not undersample), random_state=42).copy() for f in data_split], axis=0).sample(frac=1)
 
     print 'Balanced dataset by undersampling dominant class, now have dataset of length: ' + \
           str(len(dataset))
@@ -180,7 +180,8 @@ def balance_dataset(dataset, label, undersample=True):
 
 
 def join_ab_features(dataset):
-    drug_info_df = pd.read_csv('/Users/nwespe/Desktop/drug_info_data.csv') # add_ab_info.main(dataset)  # get from other python script
+    drug_info_df = pd.read_csv('/Users/nwespe/PyCharmProjects/Insight/data/drug_info_data.csv')
+    # add_ab_info.main(dataset)  # get from other python script
     drug_info_df2 = select_abs(drug_info_df)
     all_feature_data = drug_info_df2.merge(dataset, how='inner', on=['hadm_id', 'outcome'])
 
@@ -192,7 +193,7 @@ def main(dataset=[], only_ab=False, add_ab=False, multioutcome=False):
         dataset = pd.read_csv('/Users/nwespe/PyCharmProjects/Insight/data/cdiff_dataset.csv')
     dataset = select_features(dataset)
     if only_ab:
-        ab_dataset = pd.read_csv('/Users/nwespe/Desktop/drug_info_data.csv')  # add_ab_info.main(dataset)
+        ab_dataset = pd.read_csv('/Users/nwespe/PyCharmProjects/Insight/data/drug_info_data.csv')  # add_ab_info.main(dataset)
         dataset = select_abs(ab_dataset)
 
     if multioutcome:

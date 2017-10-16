@@ -3,32 +3,19 @@
 import pandas as pd
 import numpy as np
 import seaborn as sns
-sns.set_context('talk')
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
-from sklearn.model_selection import GridSearchCV
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.linear_model import SGDClassifier
 from sklearn.feature_selection import RFECV
 from sklearn.tree import DecisionTreeRegressor
 from sklearn import metrics
-from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import cross_val_predict
 from sklearn.model_selection import learning_curve
-from sklearn.pipeline import Pipeline
 import pickle
 
-
-def run_pipeline(dataset, model):
-    my_pipeline = Pipeline([
-        #('imputer', Imputer(strategy='median')),
-        ('standardize', StandardScaler()),
-        ('model', model)
-    ])
-    output = my_pipeline.fit_transform(dataset)
-
-    return output
+sns.set_context('talk')
 
 
 def recursive_feature(X, y):
@@ -49,7 +36,7 @@ def recursive_feature(X, y):
     return rfecv
 
 
-def fit_model(x_vals, y_vals, model='logistic', save=False):
+def fit_model(x_vals, y_vals, model='logistic', save=False, prefix='None'):
 
     x_vals2 = x_vals.drop(['hadm_id'], axis=1)
 
@@ -59,9 +46,9 @@ def fit_model(x_vals, y_vals, model='logistic', save=False):
 
     elif model == 'rf':
 
-        clf = RandomForestClassifier(n_estimators=500, min_samples_leaf=1)  # opt for patient features only
-        #clf = RandomForestClassifier(n_estimators=500, min_samples_leaf=10)  # opt for ABs only
-        #clf = RandomForestClassifier(n_estimators=700, min_samples_leaf=5)  # opt for both
+        clf = RandomForestClassifier(n_estimators=250, min_samples_leaf=10, max_depth=10)  # opt for both
+        #clf = RandomForestClassifier(n_estimators=250, min_samples_leaf=3, max_depth=20)  # opt for patient features only
+        #clf = RandomForestClassifier(n_estimators=250, min_samples_leaf=10, max_depth=20)  # opt for ab only
         clf.fit(x_vals2, y_vals)
 
     elif model == 'svm':
@@ -73,7 +60,7 @@ def fit_model(x_vals, y_vals, model='logistic', save=False):
         clf.fit(x_vals2, y_vals)
 
     if save:
-        filename = 'saved_model.sav'
+        filename = '/Users/nwespe/Desktop/' + prefix + '_saved_model.sav'
         pickle.dump(clf, open(filename, 'wb'))
 
     return clf
@@ -103,7 +90,7 @@ def plot_roc_curve(model, X, y, save=False, prefix='None'):
     plt.plot(fpr, tpr, color='blue', label='ROC curve (AUC = %0.2f)' % roc_auc)
 
     plt.plot([0, 1], [0, 1], color='k', linestyle='--')
-    plt.xlim([0.0, 1.0])
+    plt.xlim([-0.05, 1.0])
     plt.ylim([0.0, 1.05])
     plt.xlabel('False Positive Rate')
     plt.ylabel('True Positive Rate')
@@ -144,7 +131,9 @@ def plot_learning_curve(model, X, y, save=False, prefix='None'):
 
 
 def plot_probas(model, X, y, save=False, prefix='None'):
-    X2 = X.drop('hadm_id', axis=1)
+    if 'hadm_id' in X.columns:
+        X2 = X.drop('hadm_id', axis=1)
+    else: X2 = X
 
     probs = model.predict_proba(X2)
     preds = model.predict(X2)

@@ -43,7 +43,7 @@ def send_sql_query(con):
     return new_features, features, outcomes
 
 
-def onehot_encode_demos(features):  # condense feature categories and one-hot encode
+def onehot_encode_demos(features):  # condense demographics feature categories and one-hot encode
     ids = features['hadm_id'].copy()
     demo_feat = features.drop('hadm_id', axis=1)
 
@@ -63,7 +63,8 @@ def onehot_encode_demos(features):  # condense feature categories and one-hot en
     return demo_cats_encoded
 
 
-def remove_short_stays(outcomes, con):  # only analyze patients who survive
+def remove_short_stays(outcomes, con):
+    # only analyze patients who stay longer than 3 days -- not used in final model
     info = pd.read_sql_query('SELECT hadm_id, expire, los_hospital from all_admit_info;', con)
     both_outcomes = outcomes.merge(info, on='hadm_id')
     long_stay_only = both_outcomes[both_outcomes.los_hospital >= 3]
@@ -72,7 +73,8 @@ def remove_short_stays(outcomes, con):  # only analyze patients who survive
     return long_stay_only
 
 
-def remove_expired(outcomes, con):  # only analyze patients who survive
+def remove_expired(outcomes, con):
+    # only analyze patients who survive -- not used in final model
     expire = pd.read_sql_query('SELECT hadm_id, expire from all_admit_info;', con)
     both_outcomes = outcomes.merge(expire, on='hadm_id')
     survived_only = both_outcomes[both_outcomes.hospital_expire_flag == 0]
@@ -130,7 +132,7 @@ def generate_multistay_info(con):
                                 'icd9_codes': codes}
                 list_of_combined_rows.append(combined_row)
     multistay_data = pd.DataFrame(list_of_combined_rows)
-    multistay_data.to_csv('/Users/nwespe/Desktop/multistay_90d_combined_data.csv')
+    multistay_data.to_csv('/Users/nwespe/PyCharmProjects/Insight/data/multistay_90d_combined_data.csv')
     return multistay_data
 
 
@@ -157,11 +159,11 @@ def change_outcome(multistay_df, first_hadmids, xid):  # called by merge_close_s
 
 
 def merge_close_stays(outcomes):
-    # match multistay data w cdiff outcomes and where hospital stay is combined,
+    # match multistay data w cdiff outcomes and, where hospital stay is combined,
     # change outcome value in outcomes list for first_hadmid to higher cdiff value
     # remove secondary hadm ids from features and outcomes lists
 
-    multistay_data = pd.read_csv('/Users/nwespe/Desktop/multistay_90d_combined_data.csv')
+    multistay_data = pd.read_csv('/Users/nwespe/PyCharmProjects/Insight/data/multistay_90d_combined_data.csv')
     first_hadmids = list(multistay_data.first_hadm_id.values)
     multistay_other_hadmids = list(multistay_data.other_hadm_id.values)
     other_hadmids = [y for x in multistay_other_hadmids for y in ast.literal_eval(x)]
@@ -198,7 +200,7 @@ def remove_cdiff_admits(outcomes, con):
 
 
 def remove_young(outcomes, con):
-    # don't include admissions due to cdiff
+    # don't include admissions under age 18
     admit_info = pd.read_sql_query('SELECT * FROM all_admit_info;', con)
     adult_admits = admit_info[admit_info.age >= 18]  # only include this subset from outcomes list
     ids = list(adult_admits.hadm_id)
@@ -286,7 +288,7 @@ def combine_features(feat1, feat2):
 
 
 def plot_probability_quantiles(dataset, cols=None, save=False):
-    # plot histograms of features
+    # plot probability plots
     if cols is None:
         cols = list(dataset.columns)  # [:-1]
     ncols = 6
