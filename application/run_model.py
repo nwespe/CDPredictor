@@ -84,7 +84,7 @@ def plot_roc_curve(model, X, y, save=False, prefix='None'):
     X_train, X_test, y_train, y_test = train_test_split(X2, y, test_size=0.2, stratify=y)
     # not the real train/test split, just split training data
     preds = model.predict_proba(X_test)[:, 1]
-    fpr, tpr, _ = metrics.roc_curve(y_test, preds)
+    fpr, tpr, thresholds = metrics.roc_curve(y_test, preds)
     roc_auc = metrics.auc(fpr, tpr)
 
     plt.plot(fpr, tpr, color='blue', label='ROC curve (AUC = %0.2f)' % roc_auc)
@@ -96,6 +96,8 @@ def plot_roc_curve(model, X, y, save=False, prefix='None'):
     plt.ylabel('True Positive Rate')
     plt.title('Receiver Operating Characteristic Curve')
     plt.legend(loc="lower right")
+
+
 
     if save:
         plt.savefig('/Users/nwespe/Desktop/' + prefix + '_roc_curve.svg', bbox_inches='tight')
@@ -179,9 +181,9 @@ def eval_risk(model=False):
     results.columns = ['Probability']
     results.sort_values('Probability', inplace=True, ascending=False)
 
-    if results.max().item() < 0.30:
+    if results.max().item() <= 0.40:
         risk = 'low'
-    elif results.max().item() < 0.70:
+    elif results.max().item() < 0.60:
         risk = 'moderate'
     else:
         risk = 'high'
